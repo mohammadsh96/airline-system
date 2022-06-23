@@ -1,0 +1,23 @@
+{
+  "name": "airline-system",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node system.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mohammadsh96/airline-system.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mohammadsh96/airline-system/issues"
+  },
+  "homepage": "https://github.com/mohammadsh96/airline-system#readme",
+  "devDependencies": {
+    "@faker-js/faker": "^7.3.0"
+  }
+}
