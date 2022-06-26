@@ -1,12 +1,12 @@
 # airline-system
 
-[pull request ✈](https://github.com/mohammadsh96/airline-system/pull/1)
+[pull request ✈](https://github.com/mohammadsh96/airline-system/pull/3)
 
-
-## UML
-
-![uml](UML.png)
 
 ## result
 
 ![test](./terminalSystem.png)
+
+## UML
+
+![uml](UML.png)
