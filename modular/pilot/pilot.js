@@ -1,74 +1,28 @@
 'use strict';
-const events = require('../events');
-require('../manager/manager');
-const flight = require('../system')
+require('dotenv').config();
+const io = require('socket.io-client');
+let host = `http://localhost:${process.env.PORT}/`;
 
+const systemConnection = io.connect(host);
 
-let count =1;
+systemConnection.on('took-off', tookOff);
 
-console.log(" wait 10 seconds to see ... ⏳🙂")
-
-setInterval(() =>{
-    if(count<10){
-    if(count == 1) {
-    console.log(count , "🙂");
-    
-}
-if(count == 2) {
-    console.log(count , "😀");
-    
-}
-if(count == 3) {
-    console.log(count , "🤨");
-    
-}
-if(count == 4) {
-    console.log(count , "😛");
-   
-}
-if(count == 5) {
-    console.log(count , "😌");
-    
-}
-if(count == 6) {
-    console.log(count , "🥱");
-    
-}
-if(count == 7) {
-    console.log(count , "😴");
-    
-}
-if(count == 8) {
-    console.log(count , "😫");
-    
-}
-if(count == 9) {
-    console.log(count , "😍");
-    
-}
-
-
-}
-count++;
-}  , 999);
-
-events.on('took-off', tookOff);
 function tookOff(payload) {
-   
+
+  
         console.log(` Pilot: flight with ID : " ${payload.flightID} "  took-off `);
 
-        console.log(payload);
+        // console.log(payload);
 }
 
+systemConnection.on('arrived', arrived);
 
-
-events.on('arrived', arrived);
 function arrived(payload) {
    
         console.log(` Pilot: flight with ID : " ${payload.flightID} "  has arrived `);
-        console.log(payload);
+        
         console.log("----------------------------------------------------------------");
-        events.emit("massage" , flight)
+        systemConnection.emit("massage" , payload)
 }
 
 
@@ -78,7 +32,7 @@ function arrived(payload) {
 
 
 
-module.exports ={tookOff,arrived}
+
 
 
 
