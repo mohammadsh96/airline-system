@@ -9,4 +9,4 @@
 
 ## result
 
-![test](./terminalTest.png)
+![test](./terminalSystem.png)
