@@ -5,7 +5,7 @@
 
 ## result
 
-![test](./terminalSystem.png)
+![test](./lab13test.png)
 
 ## UML
 
