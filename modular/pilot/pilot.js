@@ -5,25 +5,39 @@ let host = `http://localhost:${process.env.PORT}/`;
 
 const systemConnection = io.connect(host);
 
-systemConnection.on('took-off', tookOff);
 
-function tookOff(payload) {
 
-  
-        console.log(` Pilot: flight with ID : " ${payload.flightID} "  took-off `);
 
-        // console.log(payload);
-}
+systemConnection.on('flight',(payload)=>{
+        console.log("                      ");
+ console.log(`  'Pilot:Sorry i didn't catch this flight ID 332u443673r32yuf463'.`);
 
-systemConnection.on('arrived', arrived);
-
-function arrived(payload) {
-   
-        console.log(` Pilot: flight with ID : " ${payload.flightID} "  has arrived `);
+});
+systemConnection.on("new-flight", (payload) =>{
+        console.log("                      ");
+            
+        console.log("the pilot got  notified by manager for the new-flight");
         
-        console.log("----------------------------------------------------------------");
-        systemConnection.emit("massage" , payload)
-}
+       systemConnection.emit("get-all")
+                })   
+        //      systemConnection.emit("took-off" );
+        // systemConnection.emit("arrived" ); 
+        
+        
+        systemConnection.on('took-off',(payload)=>{
+                console.log("                      ");
+                       console.log(` Pilot: flight with ID : " ${payload.Details.flightID} "  took-off `);
+            
+                   });
+            
+                   systemConnection.on('arrived', (payload) => {
+                        console.log("                      ");
+                       console.log(` Pilot: flight with ID : " ${payload.Details.flightID} "  has arrived `);
+                       
+                       
+                       });  
+             
+          
 
 
 
@@ -34,6 +48,9 @@ function arrived(payload) {
 
 
 
+
+
+        
 
 
 

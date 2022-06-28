@@ -4,79 +4,80 @@ require('dotenv').config();
 const PORT = process.env.PORT || 3030;
 const {faker} = require('@faker-js/faker');
 const ioServer = require('socket.io')(PORT);
-function addZero(i) {
-    if (i < 10) {i = "0" + i}
-    return i;
-  } 
-  
-  const d = new Date();
-  let h = addZero(d.getHours());
-  let m = addZero(d.getMinutes());
-  let s = addZero(d.getSeconds());
-  let  time = h + ":" + m + ":" + s;
-let allevent = ["took-off", "new-flight", "arrived" , "massage"]
+const uuid = require('uuid').v4;
 
-let flight = {
-    event: allevent[1],
-    time: time,
-    Details: "any" ,
-    airLine: 'Royal Jordanian Airlines',
-    flightID: faker.datatype.uuid(),
-    pilot: faker.name.firstName(),
-    destination: faker.address.city()
+
+
+let queue ={
+
+flight:{
+
+
 }
+
+}
+
 
 ioServer.on('connection', (socket) => {
     console.log('connected ', socket.id);
-      
-    // setInterval(() => { 
-        setTimeout(() => {    
-            ioServer.emit('new-flight', flight);
-        console.log({
-            event: allevent[1],
-            time: time,
-            Details: "any" ,
-            airLine: 'Royal Jordanian Airlines',
-            flightID: faker.datatype.uuid(),
-            pilot: faker.name.firstName(),
-            destination: faker.address.city()
-        });
-            setTimeout(() => {
-                console.log({
-                    event: allevent[0],
-                    time: time,
-                    Details: "any" ,
-                    airLine: 'Royal Jordanian Airlines',
-                    flightID: faker.datatype.uuid(),
-                    pilot: faker.name.firstName(),
-                    destination: faker.address.city()
-                });
-                ioServer.emit('took-off', flight);
-               
-               }, 4000)
     
-        
-        setTimeout(() => { 
-            console.log({
-                event: allevent[2],
-                time: time,
-                Details: "any" ,
-                airLine: 'Royal Jordanian Airlines',
-                flightID: faker.datatype.uuid(),
-                pilot: faker.name.firstName(),
-                destination: faker.address.city()
-            });
-            ioServer.emit('arrived', flight);
-        }, 7000) 
-        setTimeout(() => { 
-            
-            ioServer.emit("massage", flight); 
-        }, 8000)
-        // }, 10000)
-      
-        }, 10000)
 
-   });
+    
+    socket.on("new-flight", (payload) =>{
+        const id = uuid();
+    queue.flight[id] = payload;
+
+console.log(queue.flight);
+
+
+
+setTimeout(() => {
+    
+    ioServer.emit("new-flight", payload)
+}, 1000);
+
+setTimeout(() => {
+    
+    ioServer.emit("took-off", payload)
+    
+}, 4000);
+setTimeout(() => {
+    
+    ioServer.emit("arrived", payload)
+    
+}, 7000);
+setTimeout(() => {
+    
+    ioServer.emit("massage" , payload)
+    
+}, 8000);
+
+
+
+
+
+setTimeout(() => {
+    
+    ioServer.emit("flight" , queue.flight)
+    
+}, 10000);
+})
+socket.on("get-all" , (payload) => {
+   
+    console.log("all flights  from get-all event");
+    const id = uuid();
+    queue.flight[id] = payload;
+console.log("----------------------------------------------");
+console.log(queue.flight);
+console.log("----------------------------------------------");
+    
+})
+
+
+
+
+       })   
+        
     
     //namespace
     
@@ -85,13 +86,13 @@ ioServer.on('connection', (socket) => {
     console.log('connected to AirLine', socket.id);
     setTimeout(() => {
                 
-        pilotAirLine.emit('took-off', flight);
+        pilotAirLine.emit('took-off', queue.flight);
        
        }, 4000)
 
        setTimeout(() => { 
             
-        pilotAirLine.emit('arrived', flight);
+        pilotAirLine.emit('arrived', queue.flight);
     }, 7000)
         
     
